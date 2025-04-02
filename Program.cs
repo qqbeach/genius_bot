@@ -1,7 +1,13 @@
-﻿internal class Program
+﻿using Microsoft.Extensions.Configuration;
+
+internal class Program
 {
     private static void Main()
     {
-        Console.WriteLine("Hello, World!");
+        var config = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .Build();
+        string apiKey = config["ApiSettings:ApiKey"];
+        Host genius = new Host(apiKey);
     }
 }
