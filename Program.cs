@@ -2,6 +2,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
+//TODO: set poll by date, set date, set up games poll, message count(чорт недели)
 internal class Program
 {
     private static void Main()
@@ -22,10 +23,16 @@ internal class Program
     {
         //await client.SendPoll
 
+        // TODO: switch
         if (update.Message?.Text == "/start")
         {
-            await client.SendMessage(update.Message?.Chat.Id , "test start",
+            await client.SendMessage(update.Message.Chat.Id , "Хули выебываешься? \n/help вводи",
                 replyParameters: update.Message?.MessageId);
+        }
+        else if (update.Message?.Text == "/help")
+        {
+            await client.SendMessage(update.Message.Chat.Id, "Команды\n/start\n"
+                , replyParameters: update.Message?.MessageId);
         }
 
     }
