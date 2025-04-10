@@ -33,7 +33,21 @@ internal class Program
             var weekDay = "";
             var desireDate = DateTime.Today;
 
-            if (day.Contains("суб"))
+            if (day.Contains("пят") || day.Contains("птн"))
+            {
+                weekDay = "Пятница";
+                var daysToAdd = ((int)DayOfWeek.Friday - (int)DateTime.Today.DayOfWeek + 7) % 7;
+                daysToAdd = daysToAdd == 0 ? 7 : daysToAdd;    
+                desireDate = DateTime.Today.AddDays(daysToAdd);
+            }
+            else if (day.Contains("вск") || day.Contains("вос"))
+            {
+                weekDay = "Воскресенье";
+                var daysToAdd = ((int)DayOfWeek.Sunday - (int)DateTime.Today.DayOfWeek + 7) % 7;
+                daysToAdd = daysToAdd == 0 ? 7 : daysToAdd;    
+                desireDate = DateTime.Today.AddDays(daysToAdd);  
+            }
+            else
             {
                 weekDay = "Суббота";
                 var daysToAdd = ((int)DayOfWeek.Saturday - (int)DateTime.Today.DayOfWeek + 7) % 7;
@@ -43,7 +57,7 @@ internal class Program
             
 
             await client.SendPoll(update.Message.Chat.Id,
-            $"Собираемся в {weekDay}, {desireDate}? Если да, то выбери час с которого ты будешь полностью свободен",
+            $"Собираемся в {weekDay}, {desireDate.ToString("dd.MM.yyyy")}? Если да, то выбери час с которого ты будешь полностью свободен",
             [
                 "У меня не выйдет",
                 "Да, я свободен c 24(по гринвичу. Пиздец, у Дани час ночи будет, shame on me)",
