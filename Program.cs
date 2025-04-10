@@ -72,6 +72,18 @@ internal class Program
 
             client?.PinChatMessage(update.Message.Chat.Id, send_poll.Id);
         }
+        if (mes != null && mes.StartsWith("/games"))
+        {
+            string[] variants = mes.Split(' ');
+            System.Console.WriteLine(variants);
+
+            var send_game = await client.SendPoll(update?.Message?.Chat.Id,
+            "В чё погамаем?",
+            [
+                    
+            ]);
+        }
+        
         else if (update.Message?.Text == "/sayhi")
         {
             await client.DeleteMessage(update.Message.Chat.Id, update.Message.Id);
