@@ -27,7 +27,7 @@ internal class Program
 
         // TODO: auto self pin
         var mes = update.Message?.Text?.ToLower();
-        if (mes.StartsWith("/poll"))
+        if (mes != null && mes.StartsWith("/poll"))
         {
             var day = mes.Substring(5);
             var weekDay = "";
@@ -56,7 +56,7 @@ internal class Program
             }
             
 
-            await client.SendPoll(update.Message.Chat.Id,
+            var send_poll = await client.SendPoll(update.Message.Chat.Id,
             $"Собираемся в {weekDay}, {desireDate.ToString("dd.MM.yyyy")}? Если да, то выбери час с которого ты будешь полностью свободен",
             [
                 "У меня не выйдет",
@@ -68,10 +68,17 @@ internal class Program
                 "Да, я свободен c 19(по гринвичу)",
                 "Да, я свободен c 18(по гринвичу)",
                 "Да, я свободен даже раньше"
-            ], false,null, true);
+            ], false, null, true);
 
+            client?.PinChatMessage(update.Message.Chat.Id, send_poll.Id);
+        }
+        else if (update.Message?.Text == "/sayhi")
+        {
+            await client.DeleteMessage(update.Message.Chat.Id, update.Message.Id);
+            await client.SendMessage(update.Message.Chat.Id, "Здарова черти ебаные");
         }
         //TODO: poll game.
+        
         // else if (update.Message?.Text == "/start")
         // {
         //     await client.SendMessage(update.Message.Chat.Id , "Хули выебываешься? \n/help вводи",
